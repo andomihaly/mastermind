@@ -1,23 +1,27 @@
 package step_definitions;
-
 import io.cucumber.java.en.*;
 
+import mastermind.CodePegs;
+import mastermind.CodePegsColor;
+import mastermind.Mastermind;
+import org.junit.Assert;
+
 public class OneRoundSteps {
-    @Given("{int} reds master pins")
-    public void redsMasterPins(Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    private CodePegs codePegs;
+    private CodePegs masterPegs;
+    @Given("4 reds master pegs")
+    public void redsMasterPegs() {
+        masterPegs = new CodePegs(CodePegsColor.Red,CodePegsColor.Red,CodePegsColor.Red,CodePegsColor.Red);
     }
 
-    @When("I guess {int} green pins")
-    public void iGuessGreenPins(Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    @When("I guess 4 green pegs")
+    public void iGuess4GreenPegs() {
+        codePegs = new CodePegs(CodePegsColor.Green,CodePegsColor.Green,CodePegsColor.Green,CodePegsColor.Green);
     }
     @Then("I get nothing")
     public void iGetNothing() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        Mastermind m = new Mastermind();
+        Assert.assertEquals("",m.evaulateGuess(masterPegs,codePegs));
     }
 
 }
