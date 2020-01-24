@@ -6,6 +6,8 @@ public class CodePegs {
     public CodePegsColor peg3;
     public CodePegsColor peg4;
 
+    public CodePegs() {
+    }
     public CodePegs(CodePegsColor peg1, CodePegsColor peg2, CodePegsColor peg3, CodePegsColor peg4) {
         this.peg1 = peg1;
         this.peg2 = peg2;
