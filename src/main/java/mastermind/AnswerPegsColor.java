@@ -1,5 +1,5 @@
 package mastermind;
 
-public enum KeyPegsColor {
+public enum AnswerPegsColor {
     Black,White
 }
