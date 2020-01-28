@@ -19,9 +19,9 @@ public class OneRoundSteps {
         return CodePegsColor.valueOf(capatalize(color));
     }
 
-    public String capatalize(String text) {
-        text = text.toLowerCase();
-        return text.substring(0, 1).toUpperCase() + text.substring(1);
+    @ParameterType("[a-z,-]+")
+    public List<AnswerPegsColor> answerColors(String answerPegs) {
+        return generateAnswerPegsListFromString(answerPegs);
     }
 
     @Given("a {pegcolor}, {pegcolor}, {pegcolor} and {pegcolor} master pins")
@@ -42,14 +42,15 @@ public class OneRoundSteps {
         guessPegs.peg4 = guessPeg4;
     }
 
-    @Then("^I get (.*?)$")
-    public void iGetPegscore(String expectedScore) {
-        assertPegGuess(expectedScore, masterPegs, guessPegs);
+    @Then("I get {answerColors}.")
+    public void iGetPegscore(List<AnswerPegsColor> expectedScore) {
+        Mastermind m = new Mastermind();
+        Assert.assertEquals(expectedScore, m.evaulateGuess(masterPegs, guessPegs));
     }
 
-    private void assertPegGuess(String expectedAnswer, CodePegs masterPegs, CodePegs codePegs) {
-        Mastermind m = new Mastermind();
-        Assert.assertEquals(generateAnswerPegsListFromString(expectedAnswer), m.evaulateGuess(masterPegs, guessPegs));
+    public String capatalize(String text) {
+        text = text.toLowerCase();
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
     }
 
     private List<AnswerPegsColor> generateAnswerPegsListFromString(String answerPegs) {
@@ -59,7 +60,7 @@ public class OneRoundSteps {
     }
 
     private boolean isAnswerInputEmpty(String answerPegs) {
-        return answerPegs == null || answerPegs.equals("");
+        return answerPegs == null || answerPegs.equals("") || answerPegs.equals("-");
     }
 
     private List<AnswerPegsColor> ConvertAnswerPegStringToList(String answerPegs) {
