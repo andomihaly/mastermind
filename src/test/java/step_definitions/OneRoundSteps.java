@@ -18,19 +18,44 @@ public class OneRoundSteps {
     public CodePegsColor pegcolor(String color) {
         return CodePegsColor.valueOf(capatalize(color));
     }
+    @ParameterType("[a-z, ]+")
+    public CodePegs pegscolor(String pegsColor) {
+        //parse: green, red, green and green;
+        String [] colors = pegsColor.split(", ");
+        if (colors.length == 3){
+            return genetrateMasterPegsFromPegsColor(colors)
+        }
+        throw new InvalidPegsColorSetException();
+    }
+
+    private CodePegs genetrateMasterPegsFromPegsColor(String[] colors) {
+        masterPegs = new CodePegs();
+        masterPegs.peg1 = pegcolor(colors[0]);
+        masterPegs.peg2 = pegcolor(colors[1]);
+        //parse: green and green;
+        colors = colors[2].split(" and ");
+        if (colors.length == 2){
+            masterPegs.peg3 = pegcolor(colors[0]);
+            masterPegs.peg4 = pegcolor(colors[1]);
+            return masterPegs;
+        }
+        throw new InvalidPegsColorSetException();
+    }
 
     @ParameterType("[a-z,-]+")
     public List<AnswerPegsColor> answerColors(String answerPegs) {
         return generateAnswerPegsListFromString(answerPegs);
     }
 
-    @Given("a {pegcolor}, {pegcolor}, {pegcolor} and {pegcolor} master pins")
-    public void aMasterPegs(CodePegsColor masterpeg1, CodePegsColor masterpeg2, CodePegsColor masterpeg3, CodePegsColor masterpeg4) {
-        masterPegs = new CodePegs();
-        masterPegs.peg1 = masterpeg1;
-        masterPegs.peg2 = masterpeg2;
-        masterPegs.peg3 = masterpeg3;
-        masterPegs.peg4 = masterpeg4;
+    //@Given("a {pegcolor}, {pegcolor}, {pegcolor} and {pegcolor} master pins")
+    @Given("a {pegscolor} master pins")
+    //public void aMasterPegs(CodePegsColor masterpeg1, CodePegsColor masterpeg2, CodePegsColor masterpeg3, CodePegsColor masterpeg4) {
+    public void aMasterPegs(CodePegs actualMasterPeg) {
+        masterPegs = actualMasterPeg;
+//        masterPegs.peg1 = masterpeg1;
+//        masterPegs.peg2 = masterpeg2;
+//        masterPegs.peg3 = masterpeg3;
+//        masterPegs.peg4 = masterpeg4;
     }
 
     @When("I guess with {pegcolor}, {pegcolor}, {pegcolor} and {pegcolor} pins")
@@ -82,5 +107,8 @@ public class OneRoundSteps {
     }
 
     private class InvalidAnswerPegsColor extends RuntimeException {
+    }
+
+    private class InvalidPegsColorSetException extends RuntimeException {
     }
 }
