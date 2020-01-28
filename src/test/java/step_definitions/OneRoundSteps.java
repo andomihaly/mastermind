@@ -1,6 +1,5 @@
 package step_definitions;
 
-import io.cucumber.core.api.TypeRegistry;
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
@@ -23,7 +22,7 @@ public class OneRoundSteps {
         //parse: green, red, green and green;
         String [] colors = pegsColor.split(", ");
         if (colors.length == 3){
-            return genetrateMasterPegsFromPegsColor(colors)
+            return genetrateMasterPegsFromPegsColor(colors);
         }
         throw new InvalidPegsColorSetException();
     }
@@ -47,15 +46,9 @@ public class OneRoundSteps {
         return generateAnswerPegsListFromString(answerPegs);
     }
 
-    //@Given("a {pegcolor}, {pegcolor}, {pegcolor} and {pegcolor} master pins")
     @Given("a {pegscolor} master pins")
-    //public void aMasterPegs(CodePegsColor masterpeg1, CodePegsColor masterpeg2, CodePegsColor masterpeg3, CodePegsColor masterpeg4) {
     public void aMasterPegs(CodePegs actualMasterPeg) {
         masterPegs = actualMasterPeg;
-//        masterPegs.peg1 = masterpeg1;
-//        masterPegs.peg2 = masterpeg2;
-//        masterPegs.peg3 = masterpeg3;
-//        masterPegs.peg4 = masterpeg4;
     }
 
     @When("I guess with {pegcolor}, {pegcolor}, {pegcolor} and {pegcolor} pins")
