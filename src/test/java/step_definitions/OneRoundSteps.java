@@ -1,7 +1,10 @@
 package step_definitions;
 
+import io.cucumber.core.api.TypeRegistry;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,27 +14,37 @@ public class OneRoundSteps {
     private CodePegs guessPegs;
     private CodePegs masterPegs;
 
-    @Given("^a (.*?), (.*?), (.*?) and (.*?) master pins$")
-    public void aMasterPegs(String masterpeg1, String masterpeg2, String masterpeg3,String masterpeg4) {
-        masterPegs = new CodePegs();
-        masterPegs.peg1 = generateCodePegColor(masterpeg1);
-        masterPegs.peg2 = generateCodePegColor(masterpeg2);
-        masterPegs.peg3 = generateCodePegColor(masterpeg3);
-        masterPegs.peg4 = generateCodePegColor(masterpeg4);
+    @ParameterType("[a-z ]+")
+    public CodePegsColor pegcolor(String color) {
+        return CodePegsColor.valueOf(capatalize(color));
     }
 
-    @When("^I guess with (.*?), (.*?), (.*?) and (.*?) pins$")
-    public void iGuessWithPegs(String guessPeg1, String guessPeg2, String guessPeg3,String guessPeg4) {
+    public String capatalize(String text) {
+        text = text.toLowerCase();
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
+    }
+
+    @Given("a {pegcolor}, {pegcolor}, {pegcolor} and {pegcolor} master pins")
+    public void aMasterPegs(CodePegsColor masterpeg1, CodePegsColor masterpeg2, CodePegsColor masterpeg3, CodePegsColor masterpeg4) {
+        masterPegs = new CodePegs();
+        masterPegs.peg1 = masterpeg1;
+        masterPegs.peg2 = masterpeg2;
+        masterPegs.peg3 = masterpeg3;
+        masterPegs.peg4 = masterpeg4;
+    }
+
+    @When("I guess with {pegcolor}, {pegcolor}, {pegcolor} and {pegcolor} pins")
+    public void iGuessWithPegs(CodePegsColor guessPeg1, CodePegsColor guessPeg2, CodePegsColor guessPeg3, CodePegsColor guessPeg4) {
         guessPegs = new CodePegs();
-        guessPegs.peg1 = generateCodePegColor(guessPeg1);
-        guessPegs.peg2 = generateCodePegColor(guessPeg2);
-        guessPegs.peg3 = generateCodePegColor(guessPeg3);
-        guessPegs.peg4 = generateCodePegColor(guessPeg4);
+        guessPegs.peg1 = guessPeg1;
+        guessPegs.peg2 = guessPeg2;
+        guessPegs.peg3 = guessPeg3;
+        guessPegs.peg4 = guessPeg4;
     }
 
     @Then("^I get (.*?)$")
     public void iGetPegscore(String expectedScore) {
-        assertPegGuess(expectedScore,masterPegs,guessPegs);
+        assertPegGuess(expectedScore, masterPegs, guessPegs);
     }
 
     private void assertPegGuess(String expectedAnswer, CodePegs masterPegs, CodePegs codePegs) {
@@ -39,31 +52,14 @@ public class OneRoundSteps {
         Assert.assertEquals(generateAnswerPegsListFromString(expectedAnswer), m.evaulateGuess(masterPegs, guessPegs));
     }
 
-    private CodePegsColor generateCodePegColor(String mypeg1) {
-        if (mypeg1.equals("green"))
-            return CodePegsColor.Green;
-        else if (mypeg1.equals("red"))
-            return CodePegsColor.Red;
-        else if (mypeg1.equals("black"))
-            return CodePegsColor.Black;
-        else if (mypeg1.equals("blue"))
-            return CodePegsColor.Blue;
-        else if (mypeg1.equals("brown"))
-            return CodePegsColor.Brown;
-        else if (mypeg1.equals("yellow"))
-            return CodePegsColor.Yellow;
-        else
-            throw new InvalidCodePegsColor();
-    }
-
-    private List<AnswerPegsColor> generateAnswerPegsListFromString(String answerPegs){
+    private List<AnswerPegsColor> generateAnswerPegsListFromString(String answerPegs) {
         if (isAnswerInputEmpty(answerPegs))
             return new ArrayList<AnswerPegsColor>();
         return ConvertAnswerPegStringToList(answerPegs);
     }
 
     private boolean isAnswerInputEmpty(String answerPegs) {
-        return answerPegs== null || answerPegs.equals("");
+        return answerPegs == null || answerPegs.equals("");
     }
 
     private List<AnswerPegsColor> ConvertAnswerPegStringToList(String answerPegs) {
@@ -85,8 +81,5 @@ public class OneRoundSteps {
     }
 
     private class InvalidAnswerPegsColor extends RuntimeException {
-    }
-
-    private class InvalidCodePegsColor extends RuntimeException {
     }
 }
