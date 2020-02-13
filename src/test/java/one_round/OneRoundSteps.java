@@ -1,4 +1,4 @@
-package one_round.step_definitions;
+package one_round;
 
 import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.*;

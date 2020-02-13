@@ -2,29 +2,29 @@ package game;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import known_object.KnownMasterMind;
 import org.junit.Assert;
 
-import mastermind.CodePegs;
-import mastermind.CodePegsColor;
 import mastermind.Mastermind;
 import mastermind.OneGameResult;
 
 public class OneGameSteps {
-    private CodePegs incorrectPegs = new CodePegs(CodePegsColor.Red, CodePegsColor.Red, CodePegsColor.Red, CodePegsColor.Red);
-    private CodePegs correctPeg = new CodePegs(CodePegsColor.Red, CodePegsColor.Green, CodePegsColor.Blue, CodePegsColor.Black);
-    //TODO: Here we can use knowObject to get the MasterPegs from OneRoundSteps file
-    private CodePegs masterPegs = new CodePegs();
+    private KnownMasterMind helper;
     private Mastermind mastermind = new Mastermind();
+
+    public OneGameSteps() {
+        helper = new KnownMasterMind();
+    }
 
     @When("I guess with the correct pins")
     public void iGuessWithTheCorrectPins() {
-        mastermind.evaulateGuess(masterPegs,incorrectPegs);
+        mastermind.evaulateGuess(helper.getMasterPeg(),helper.correctPegs);
     }
 
     @When("^I guess with ([0-9]+) time with incorrect pins$")
     public void iGuessWithTimeWithIncorrectPins(int numberOfGuess) {
         for (int i = 0; i < numberOfGuess ; i++) {
-            mastermind.evaulateGuess(masterPegs,incorrectPegs);
+            mastermind.evaulateGuess(helper.getMasterPeg(),helper.incorrectPegs);
         }
     }
 
