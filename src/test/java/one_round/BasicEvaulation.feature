@@ -9,9 +9,11 @@ Feature: MasterMind One Round Evaluation
       | green  | red    | green  | green  | white,white |
       | red    | blue   | green  | green  | black,white |
       | black  | brown  | brown  | brown  | white       |
+    @quicktest @smoke
     Examples: MasterPegs are cover by our guess
       | mypeg1 | mypeg2 | mypeg3 | mypeg4 | pegscore                |
       | red    | green  | blue   | black  | black,black,black,black |
+    @smoke
     Examples: There was no hit during actual guess
       | mypeg1 | mypeg2 | mypeg3 | mypeg4 | pegscore |
       | yellow | yellow | yellow | yellow | -        |

@@ -1,3 +1,4 @@
+@smoke
 Feature: MasterMind Championship
 
   Scenario: BestGamer
@@ -5,6 +6,7 @@ Feature: MasterMind Championship
     When she won all the 5 game
     Then the championship result is 5-0 score.
 
+  @quicktest
   Scenario: Equal Gamer
     Given two normal gamer
     When one gamer won 2 games

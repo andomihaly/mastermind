@@ -6,6 +6,13 @@ import org.junit.runner.RunWith;
 @CucumberOptions(plugin = "pretty",
         snippets = CucumberOptions.SnippetType.CAMELCASE,
         features="src/test/java",
-        strict = true )
+        //tags = "@notest",
+        //tags = "@smoke",
+        //tags = "@quicktest",
+        //tags = "@smoke and @quicktest",
+        //tags = "not @quicktest",
+        //tags = "not @quicktest and not @smoke",
+        strict = true
+        )
 public class RunCukesTest {
 }
