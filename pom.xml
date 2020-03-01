@@ -10,6 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <cucumber-junit.version>5.3.0</cucumber-junit.version>
     </properties>
 
     <build>
@@ -23,10 +24,56 @@
                     <target>11</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.github.cukedoctor</groupId>
+                <artifactId>cukedoctor-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <outputFileName>documentation</outputFileName>
+                    <outputDir>test-classes</outputDir>
+                    <format>all</format>
+                    <toc>left</toc>
+                    <numbered>false</numbered>
+                    <chapterLabel>*</chapterLabel>
+                    <hideScenarioKeyword>true</hideScenarioKeyword>
+                    <hideTags>true</hideTags>
+                    <hideStepTime>true</hideStepTime>
+                    <documentTitle>Cím</documentTitle>
+                    <versionLabel>Verzió</versionLabel>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+    </parent>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -36,13 +83,13 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>5.0.0-RC4</version>
+            <version>${cucumber-junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>5.0.0-RC4</version>
+            <version>5.3.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

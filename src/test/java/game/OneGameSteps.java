@@ -12,8 +12,8 @@ public class OneGameSteps {
     private KnownMasterMind helper;
     private Mastermind mastermind = new Mastermind();
 
-    public OneGameSteps() {
-        helper = new KnownMasterMind();
+    public OneGameSteps(KnownMasterMind helper) {
+        this.helper = helper;
     }
 
     @When("I guess with the correct pins")
